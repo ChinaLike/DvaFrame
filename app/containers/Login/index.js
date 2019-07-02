@@ -2,14 +2,14 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Image, ActivityIndicator } from 'react-native'
 import { connect } from 'react-redux'
 
-import { Button, Touchable } from '../components'
+import { Button, Touchable } from '../../components'
 
-import { createAction, NavigationActions } from '../utils'
+import { createAction, NavigationActions } from '../../utils'
 
 @connect(({ app }) => ({ ...app }))
 class Login extends Component {
   static navigationOptions = {
-    title: 'Login',
+    title: 'Login'
   }
 
   onLogin = () => {
@@ -33,7 +33,7 @@ class Login extends Component {
           <Touchable style={styles.close} onPress={this.onClose}>
             <Image
               style={styles.icon}
-              source={require('../res/images/close.png')}
+              source={require('../../res/images/close.png')}
             />
           </Touchable>
         )}
@@ -46,18 +46,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   close: {
     position: 'absolute',
     right: 10,
-    top: 30,
+    top: 30
   },
   icon: {
     width: 24,
     height: 24,
-    tintColor: 'gray',
-  },
+    tintColor: 'gray'
+  }
 })
 
 export default Login

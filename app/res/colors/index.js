@@ -1,14 +1,13 @@
-/************************************与应用相关 START************************************/
-export const THEME = '#FFFFFF' //主题颜色
-/************************************与应用相关   END************************************/
-
-/************************************通用颜色 START************************************/
-export const WHITE = '#FFFFFF' //白色
-/************************************通用颜色   END************************************/
-
-const Color = {
-  THEME,
-  WHITE
-}
-
-export default Color
+export default (Colors = {
+  THEME: {
+    MAIN: '#00CED1',
+    SUB: '#00CED1'
+  },
+  COMMON: {
+    WHITE: '#FFFFFF'
+  },
+  SEPARATOR: '#EEE',
+  NORM: {
+    ONE_LEVEL_TEXT: '#CCC'
+  }
+})

@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react'
-import { BackHandler } from 'react-native'
+import { StyleSheet, View, ActivityIndicator, BackHandler } from 'react-native'
 import { connect } from 'react-redux'
-
+import StatusBarUtil from './utils/StatusBarUtil'
 import CodePush from './utils/CodePush'
-
-import Loading from './containers/Loading'
 
 import { NavigationActions, getActiveRouteName, app } from './navigator'
 
@@ -13,7 +11,9 @@ const App = app()
 @connect(({ app, router }) => ({ app, router }))
 class Router extends PureComponent {
   componentWillMount() {
+    StatusBarUtil.setStatusBarColor('transparent')
     BackHandler.addEventListener('hardwareBackPress', this.backHandle)
+    CodePush.codePushSync()
   }
 
   componentWillUnmount() {
@@ -34,12 +34,23 @@ class Router extends PureComponent {
 
   render() {
     const { app, dispatch, router } = this.props
-    if (app.loading) return <Loading />
+    if (app.loading)
+      return (
+        <View style={styles.container}>
+          <ActivityIndicator />
+        </View>
+      )
 
     return <App dispatch={dispatch} state={router} />
   }
 }
 
-Router = CodePush.codePushInit()(Router)
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+})
 
 export default Router
