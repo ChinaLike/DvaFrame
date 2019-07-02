@@ -5,3 +5,10 @@ export const THEME = '#FFFFFF' //主题颜色
 /************************************通用颜色 START************************************/
 export const WHITE = '#FFFFFF' //白色
 /************************************通用颜色   END************************************/
+
+const Color = {
+  THEME,
+  WHITE
+}
+
+export default Color

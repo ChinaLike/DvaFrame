@@ -6,7 +6,7 @@ import {
 
 import AppNavigator from './AppNavigator'
 
-import { NavigationActions } from 'react-navigation'
+export { NavigationActions } from 'react-navigation'
 
 /**
  * 获取当前路由名称
@@ -34,8 +34,4 @@ export function app() {
   createNavigationReducer(AppNavigator)
   createReactNavigationReduxMiddleware('root', state => state.router)
   return reduxifyNavigator(AppNavigator, 'root')
-}
-
-export default {
-  NavigationActions
 }

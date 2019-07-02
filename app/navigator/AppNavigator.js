@@ -1,11 +1,11 @@
-import { createStackNavigator } from 'react-navigation'
+import { createStackNavigator, createSwitchNavigator } from 'react-navigation'
 import { Animated, Easing } from 'react-native'
 
 import MainNavigator from './MainNavigator'
 import Login from '../containers/Login'
 
 /**
- * 界面配置文件
+ * 界面配置文件,只放置无导航栏的界面
  */
 const config = {
   headerMode: 'none',
@@ -39,7 +39,7 @@ const config = {
   })
 }
 
-const AppNavigator = createStackNavigator(
+const AppNavigator = createSwitchNavigator(
   {
     Main: { screen: MainNavigator },
     Login: { screen: Login }
