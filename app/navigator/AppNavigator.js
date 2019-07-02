@@ -1,6 +1,6 @@
 import { createStackNavigator, createSwitchNavigator } from 'react-navigation'
 import { Animated, Easing } from 'react-native'
-
+import StackNavigator from './StackNavigator'
 import MainNavigator from './MainNavigator'
 import Login from '../containers/Login'
 
@@ -41,8 +41,8 @@ const config = {
 
 const AppNavigator = createSwitchNavigator(
   {
-    Main: { screen: MainNavigator },
-    Login: { screen: Login }
+    StackNavigator: { screen: StackNavigator },
+    Main: { screen: MainNavigator }
   },
   config
 )

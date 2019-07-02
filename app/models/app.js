@@ -1,40 +1,32 @@
 import { createAction, NavigationActions, Storage } from '../utils'
+import { USER_STORAGE_KEY, TOKEN_STORAGE_KEY } from '../config/StorageConfig'
 import * as authService from '../services/auth'
 
 export default {
   namespace: 'app',
-  state: {
-    login: false,
-    loading: true,
-    fetching: false,
-  },
+  state: {},
   reducers: {
     updateState(state, { payload }) {
       return { ...state, ...payload }
-    },
+    }
   },
   effects: {
     *loadStorage(action, { call, put }) {
-      const login = yield call(Storage.get, 'login', false)
-      yield put(createAction('updateState')({ login, loading: false }))
-    },
-    *login({ payload }, { call, put }) {
-      yield put(createAction('updateState')({ fetching: true }))
-      const login = yield call(authService.login, payload)
-      if (login) {
-        yield put(NavigationActions.back())
+      const userInfo = yield call(Storage.get, USER_STORAGE_KEY, false)
+      if (userInfo) {
+        //有用户信息直接跳转主页
+        const token = yield call(Storage.get, TOKEN_STORAGE_KEY, '')
+        global.token = token
+        yield put(createAction('auth/updateState')({ userInfo }))
+        yield put(NavigationActions.navigate({ routeName: 'Main' }))
+      } else {
+        // 无登陆信息跳转到登陆页面
       }
-      yield put(createAction('updateState')({ login, fetching: false }))
-      Storage.set('login', login)
-    },
-    *logout(action, { call, put }) {
-      yield call(Storage.set, 'login', false)
-      yield put(createAction('updateState')({ login: false }))
-    },
+    }
   },
   subscriptions: {
     setup({ dispatch }) {
       dispatch({ type: 'loadStorage' })
-    },
-  },
+    }
+  }
 }
