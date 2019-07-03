@@ -95,14 +95,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    signingConfigs {
-        release {
-            storeFile file('TydicAndroid.jks')
-            storePassword 'tydic123456'
-            keyAlias = 'TydicAndroid'
-            keyPassword 'tydic123456'
-        }
-    }
+
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion '28.0.3'
 
