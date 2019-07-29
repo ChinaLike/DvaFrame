@@ -48,13 +48,15 @@ Appcenter 带有 Crash 日志整理，不过需要安装对应 SDK,安装命令`
 
 - 打开 Android 工程，打开项目目录
 - 进入 app 目录，依次打开 src→main→assets，找到 appcenter-config.json 文件并打开
-- 修改对应字段 app_secret 的值为该项目在 appcenter 上创建时的密钥
+- 修改对应字段 app_secret 的值为该项目在 appcenter 上创建时的密钥  
+  ![Crash密钥修改Android示例](https://github.com/ChinaLike/Picture/blob/master/DvaFrame/android_Crash.png)
 
 ### iOS 修改方法
 
 - 打开 iOS 工程，打开项目目录
 - 找到项目目录下的 AppCenter-Config.plist 文件，并打开
-- 修改对应字段 AppSecret 的值为该项目在 appcenter 上创建时的密钥
+- 修改对应字段 AppSecret 的值为该项目在 appcenter 上创建时的密钥  
+  ![Crash密钥修改iOS示例](https://github.com/ChinaLike/Picture/blob/master/DvaFrame/ios_Crash.png)
 
 # 版本推送
 
@@ -72,11 +74,13 @@ Appcenter 带有 Crash 日志整理，不过需要安装对应 SDK,安装命令`
 - 打开 Android 工程，打开项目目录
 - 进入 app 目录，依次打开 src→main→values，找到 string.xml 文件并打开
 - 修改 name 为 reactNativeCodePush_androidDeploymentKey 对应字段值为该项目在 appcenter 上创建 CodePush 时的密钥
-- 每次更新底包时应根据需求更改密钥，如果是正式版则需要修改为正式版密钥，测试版则需要修改为测试版密钥
+- 每次更新底包时应根据需求更改密钥，如果是正式版则需要修改为正式版密钥，测试版则需要修改为测试版密钥  
+  ![CodePush密钥修改Android示例](https://github.com/ChinaLike/Picture/blob/master/DvaFrame/android_CodePush.png)
 
 ### iOS 密钥修改
 
 - 打开 iOS 工程，打开项目目录
 - 找到项目目录下的 Info.plist 文件，并打开
 - 修改对应字段 CodePushDeploymentKey 的值为该项目在 appcenter 上创建 CodePush 时的密钥
-- 每次更新底包时应根据需求更改密钥，如果是正式版则需要修改为正式版密钥，测试版则需要修改为测试版密钥
+- 每次更新底包时应根据需求更改密钥，如果是正式版则需要修改为正式版密钥，测试版则需要修改为测试版密钥  
+  ![CodePush密钥修改iOS示例](https://github.com/ChinaLike/Picture/blob/master/DvaFrame/ios_CodePush.png)
