@@ -55,14 +55,17 @@ const TabNavigator = createBottomTabNavigator(
 
 TabNavigator.navigationOptions = ({ navigation }) => {
   let title = ''
+  let showHeader = true
   const index = navigation.state.index
   if (index == 0) {
     title = '首页'
+    showHeader = true
   } else if (index == 1) {
     title = '我的'
+    showHeader = false
   }
   return Config.tabNavigationConfig(
-    true,
+    showHeader,
     title,
     require('../res/images/tab/navigation_bg.png')
   )
