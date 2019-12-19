@@ -73,7 +73,7 @@ Appcenter 带有 Crash 日志整理，不过需要安装对应 SDK,安装命令`
 
 - 打开 Android 工程，打开项目目录
 - 进入 app 目录，依次打开 src→main→values，找到 string.xml 文件并打开
-- 修改 name 为 reactNativeCodePush_androidDeploymentKey 对应字段值为该项目在 appcenter 上创建 CodePush 时的密钥
+- 修改 name 为 CodePushDeploymentKey 对应字段值为该项目在 appcenter 上创建 CodePush 时的密钥
 - 每次更新底包时应根据需求更改密钥，如果是正式版则需要修改为正式版密钥，测试版则需要修改为测试版密钥  
   ![CodePush密钥修改Android示例](https://github.com/ChinaLike/Picture/blob/master/DvaFrame/android_CodePush.png)
 

@@ -166,11 +166,6 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-splash-screen')
-    implementation project(':react-native-code-push')
-    implementation project(':appcenter-crashes')
-    implementation project(':appcenter-analytics')
-    implementation project(':appcenter')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation 'androidx.multidex:multidex:2.0.0'
