@@ -2,7 +2,6 @@ import { createStackNavigator, createSwitchNavigator } from 'react-navigation'
 import { Animated, Easing } from 'react-native'
 import StackNavigator from './StackNavigator'
 import MainNavigator from './MainNavigator'
-import Login from '../containers/Login'
 
 /**
  * 界面配置文件,只放置无导航栏的界面

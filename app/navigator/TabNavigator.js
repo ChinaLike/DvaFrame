@@ -1,74 +1,109 @@
 import React from 'react'
 import { StyleSheet, Image, Platform, StatusBar } from 'react-native'
+import _ from 'lodash'
 import { createBottomTabNavigator } from 'react-navigation'
+
 import Config from './Config'
-import Colors from '../res/colors'
-import Home from '../containers/Home'
-import Account from '../containers/Account'
+import TabRoute from './TabRoute'
+import ColorUtil from '../utils/ColorUtil'
 
 /**
- * 只放置底部Tab界面
+ * 路由配置对象是从路由名称到路由配置的映射，它告诉导航器该路由要呈现的内容
+ */
+routeConfigs = () => {
+  const config = TabRoute.routeConfig
+  let routeConfig = {}
+  _.map(config.tab, (value, index) => {
+    const {
+      title,
+      tabBarLabel,
+      tabBarSelectIcon,
+      tabBarUnSelectIcon
+    } = value.navigationOptions
+    routeConfig[`${value.routeName}`] = {
+      screen: value.screen,
+      navigationOptions: {
+        title,
+        tabBarLabel: tabBarLabel || title,
+        tabBarIcon: ({ focused, tintColor }) => (
+          <Image
+            style={styles.icon}
+            source={focused ? tabBarSelectIcon : tabBarUnSelectIcon}
+          />
+        )
+      }
+    }
+  })
+  return routeConfig
+}
+
+/**
+ * 底部选项卡配置
+ */
+bottomTabNavigatorConfig = () => {
+  const routeConfig = TabRoute.routeConfig
+  if (routeConfig && routeConfig.bottomTabNavigatorConfig) {
+    return routeConfig.bottomTabNavigatorConfig
+  } else {
+    return {}
+  }
+}
+
+/**
+ * 创建底部选项卡
  */
 const TabNavigator = createBottomTabNavigator(
-  {
-    Home: {
-      screen: Home,
-      navigationOptions: {
-        title: '主页',
-        tabBarLabel: '主页',
-        tabBarIcon: ({ focused, tintColor }) => (
-          <Image
-            style={styles.icon}
-            source={
-              focused
-                ? require('../res/images/house.png')
-                : require('../res/images/house.png')
-            }
-          />
-        )
-      }
-    },
-    Account: {
-      screen: Account,
-      navigationOptions: {
-        title: '我的',
-        tabBarLabel: '我的',
-        tabBarIcon: ({ focused, tintColor }) => (
-          <Image
-            style={styles.icon}
-            source={
-              focused
-                ? require('../res/images/person.png')
-                : require('../res/images/person.png')
-            }
-          />
-        )
-      }
-    }
-  },
-  {
-    tabBarOptions: {
-      activeTintColor: Colors.THEME.MAIN
-    }
-  }
+  this.routeConfigs(),
+  this.bottomTabNavigatorConfig()
 )
 
 TabNavigator.navigationOptions = ({ navigation }) => {
-  let title = ''
-  let showHeader = true
+  const { tab } = TabRoute.routeConfig
   const index = navigation.state.index
-  if (index == 0) {
-    title = '首页'
-    showHeader = true
-  } else if (index == 1) {
-    title = '我的'
-    showHeader = false
+  const { navigationOptions } = tab[index]
+  const { hideHeader, navigatorBackground } = navigationOptions
+  if (hideHeader) {
+    //隐藏头部
+    return {
+      header: null
+    }
+  } else {
+    //显示头部
+    const { titleFontSize, headerTintColor } = Config.baseConfig
+    let tabHeaderNavigatorBackground =
+      navigatorBackground || Config.baseConfig.navigatorBackground
+    let headerBackground = null
+    let backgroundColor = null
+    if (ColorUtil.isColor(tabHeaderNavigatorBackground)) {
+      backgroundColor = tabHeaderNavigatorBackground
+    } else {
+      headerBackground = (
+        <Image source={tabHeaderNavigatorBackground} style={{ flex: 1 }} />
+      )
+    }
+    return {
+      headerTintColor: headerTintColor || 'white',
+      gesturesEnabled: false,
+      headerTitleStyle: {
+        fontSize: titleFontSize || 18,
+        flex: 1,
+        textAlign: 'center'
+      },
+      headerTransparent: false,
+      headerBackground: headerBackground,
+      headerStyle: {
+        backgroundColor: backgroundColor,
+        ...Platform.select({
+          android: {
+            paddingTop: StatusBar.currentHeight,
+            height: 50 + StatusBar.currentHeight
+          }
+        })
+      },
+      headerPressColorAndroid: 'rgba(0,0,0,0.2)',
+      ...navigationOptions
+    }
   }
-  return Config.tabNavigationConfig(
-    showHeader,
-    title,
-    require('../res/images/tab/navigation_bg.png')
-  )
 }
 
 const styles = StyleSheet.create({

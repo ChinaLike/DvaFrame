@@ -87,15 +87,127 @@ Appcenter 带有 Crash 日志整理，不过需要安装对应 SDK,安装命令`
 
 # 使用说明
 
-### 导航栏
+## 路由配置
 
-- 导航栏支持纯色和背景图片（可设计为渐变色）
-- Tab 界面可修改 app→navigator 下的 TabNavigator.js 文件的 TabNavigator.navigationOptions 下的参数即可，根据项目需要，增加对应 index 多少，并设置 showHeader 参数和 header 参数；tabNavigationConfig 的第三个参数支持图片引用和颜色引用
-- 其他页面可根据需要修改 MainNavigator.js 和 StackNavigator.js 文件中的 mainNavigatorConfig 参数即可，同样支持图片和颜色值
+    可参考[react-navigation](https://reactnavigation.org/zh-Hans/)的属性进行配置
 
-### Tab 栏
+### 全局属性配置（`navigator/Config.js`）
 
-- 修改 app→navigator 下的 TabNavigator.js 文件的 TabNavigator 参数，根据业务需要增加对应的界面，可仿照已经写好的两个界面定义进行修改
+#### baseConfig 属性
+
+- navigatorBackground 导航栏背景颜色或图片（图片可自由设计，渐变图片），颜色支持十六进制或 rgb 格式，图片支持本地，如果想使用在线图片，可自行修改。
+- titleFontSize 标题大小
+- headerTintColor 页眉颜色，即导航栏整体文字颜色
+
+### 选项卡配置（`navigator/TabRoute.js`）
+
+#### routeConfig 属性
+
+- bottomTabNavigatorConfig 选项卡基本配置
+  - initialRouteName -第一次加载时初始选项卡路由的 routeName。
+  - order -定义选项卡顺序的 routeNames 数组。
+  - paths - 提供 routeName 到 path 配置的映射, 它重写 routeConfigs 中设置的路径。
+  - backBehavior - 控制 "返回" 按钮是否会导致 Tab 页切换到初始 Tab 页? 如果是, 设置为 initialRoute, 否则 none。 默认为 initialRoute 的行为。
+  - tabBarComponent -可选，覆盖用作标签栏的组件.
+  - tabBarOptions - 具有以下属性的对象:
+    - activeTintColor -活动选项卡的标签和图标颜色。
+    - activeBackgroundColor -活动选项卡的背景色。
+    - inactiveTintColor -"非活动" 选项卡的标签和图标颜色。
+    - inactiveBackgroundColor -非活动选项卡的背景色。
+    - showLabel -是否显示选项卡的标签, 默认值为 true。
+    - showIcon - 是否显示 Tab 的图标，默认为 false。
+    - style -选项卡栏的样式对象。
+    - labelStyle -选项卡标签的样式对象。
+    - tabStyle -选项卡的样式对象。
+    - allowFontScaling -无论标签字体是否应缩放以尊重文字大小可访问性设置，默认值都是 true。
+    - adaptive - Should the tab icons and labels alignment change based on screen size? Defaults to true for iOS 11. If false, tab icons and labels align vertically all the time. When true, tab icons and labels align horizontally on tablet.
+    - safeAreaInset - 为 <SafeAreaView> 组件重写 forceInset prop， 默认值：{ bottom: 'always', top: 'never' }； top | bottom | left | right 的可选值有： 'always' | 'never'。
+- tab 选项卡路由配置
+
+  - routeName 路由名称
+  - screen 界面引用
+  - navigationOptions Item 选项卡配置
+    - title 标题，可用作 headerTitle 和 tabBarLabel 的后备的通用标题
+    - tabBarVisible true 或 false 用于显示或隐藏标签栏，如果未设置，则默认为 true。
+    - tabBarSelectIcon 选项卡被选中后的图片样式
+    - tabBarUnSelectIcon 选项卡未被选中的图片样式
+    - hideHeader 隐藏头部，默认 false
+    - navigatorBackground 导航栏背景（或颜色）, 如果未设置则使用全局的 navigatorBackground
+    - tabBarLabel 标签栏或 React 元素中显示的选项卡的标题字符串或给定{ focused: boolean, tintColor: string }的函数返回 React.Node，用于显示在标签栏中。 未定义时，使用场景 title。
+    - tabBarButtonComponent React 组件，它包装图标和标签并实现 onPress。 默认情况下是 TouchableWithoutFeedback 的一个封装，使其其表现与其它可点击组件相同。 tabBarButtonComponent: TouchableOpacity 将使用 TouchableOpacity 来替代.
+    - tabBarAccessibilityLabel 选项卡按钮的辅助功能标签。 当用户点击标签时，屏幕阅读器会读取这些信息。 如果您没有选项卡的标签，建议设置此项。
+    - tabBarTestID 用于在测试中找到该选项卡按钮的 ID。
+    - tabBarOnPress 处理点击事件的回调; 该参数是一个对象，其中包含：navigation：页面的 navigation props；defaultHandler: tab press 的默认 handler
+
+### 栈顶路由配置（`navigator/MainRoute.js`）
+
+#### routeConfig 属性
+
+- 路由配置对象是从路由名称到路由配置的映射，它告诉导航器该路由呈现的内容。比如 登录界面、手势密码界面等等。
+- 如果需要自定义配置，可在相应的组件中配置以下方法，具体属性可参考[react-navigation](https://reactnavigation.org/docs/zh-Hans/2.x/stack-navigator.html)的 createStackNavigator 的 navigationOptions 配置属性：
+
+```
+  static navigationOptions = {
+    title: 'Login',//标题
+    header: null//是否显示导航栏，默认显示
+  }
+```
+
+- 格式：
+
+```
+{
+  // For each screen that you can navigate to, create a new entry like this:
+  Profile: {
+    // `ProfileScreen` is a React component that will be the main content of the screen.
+    screen: ProfileScreen,
+    // When `ProfileScreen` is loaded by the StackNavigator, it will be given a `navigation` prop.
+    // Optional: When deep linking or using react-navigation in a web app, this path is used:
+    path: 'people/:name',
+    // The action and route params are extracted from the path.
+    // Optional: Override the `navigationOptions` for the screen
+    navigationOptions: ({ navigation }) => ({
+      title: `${navigation.state.params.name}'s Profile'`,
+    }),
+  },
+
+  ...MyOtherRoutes,
+}
+```
+
+### 普通路由配置（`navigator/StackRoute.js`）
+
+- 路由配置对象是从路由名称到路由配置的映射，它告诉导航器该路由呈现的内容。比如 详情界面、内容界面界面等等。
+- 如果需要自定义配置，可在相应的组件中配置以下方法，具体属性可参考[react-navigation](https://reactnavigation.org/docs/zh-Hans/2.x/stack-navigator.html)的 createStackNavigator 的 navigationOptions 配置属性：
+
+```
+  static navigationOptions = {
+    title: 'Login',//标题
+    header: null//是否显示导航栏，默认显示
+  }
+```
+
+- 格式：
+
+```
+{
+  // For each screen that you can navigate to, create a new entry like this:
+  Profile: {
+    // `ProfileScreen` is a React component that will be the main content of the screen.
+    screen: ProfileScreen,
+    // When `ProfileScreen` is loaded by the StackNavigator, it will be given a `navigation` prop.
+    // Optional: When deep linking or using react-navigation in a web app, this path is used:
+    path: 'people/:name',
+    // The action and route params are extracted from the path.
+    // Optional: Override the `navigationOptions` for the screen
+    navigationOptions: ({ navigation }) => ({
+      title: `${navigation.state.params.name}'s Profile'`,
+    }),
+  },
+
+  ...MyOtherRoutes,
+}
+```
 
 # 引用依赖
 
