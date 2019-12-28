@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Image } from 'react-native'
 import { Text, Button } from 'antd-mobile-rn'
 import { connect } from 'react-redux'
-
+import Permission from 'react-native-lk-permission'
 import { NavigationActions } from '../../utils'
 
 @connect()
@@ -18,11 +18,9 @@ class Home extends Component {
       <View style={styles.container}>
         <Text
           onPress={() => {
-            this.props.dispatch(
-              NavigationActions.navigate({
-                routeName: 'Detail'
-              })
-            )
+            Permission.checkSelfPermission(Permission.RECORD_AUDIO, result => {
+              alert(JSON.stringify(result))
+            })
           }}
         >
           详情
